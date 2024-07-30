@@ -1,7 +1,10 @@
 <template>
   <div>
     <div v-for="(value, key) in jsonData" :key="key" class="p-4 mt-4">
-      <div @click="() => toggle(key)" class="cursor-pointer font-bold text-blue-500">
+      <div
+        @click="() => toggle(key)"
+        class="cursor-pointer font-bold text-blue-500 hover:text-blue-800"
+      >
         {{ key }}: <span v-if="isObject(value)">{...}</span>
       </div>
       <div v-if="openKeys.includes(key)" class="ml-4">
