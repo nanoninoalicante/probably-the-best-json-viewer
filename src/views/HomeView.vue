@@ -14,13 +14,19 @@
     >
       Parse JSON
     </button>
+    <button
+      @click="clearInput"
+      class="bg-red-500 text-white py-4 px-6 ml-4 rounded-2xl mb-4 hover:bg-red-600 active:bg-red-400 ring-2 ring-slate-100"
+    >
+      Clear
+    </button>
     <div v-if="error" class="text-red-500 mb-4 mt-4">{{ error }}</div>
     <JsonViewer v-if="jsonData" :jsonData="jsonData" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import JsonViewer from '@/components/JsonViewer.vue'
 
 const jsonInput = ref<string>('')
@@ -48,11 +54,28 @@ const parseJson = () => {
     const processedInput = preprocessJsonInput(jsonInput.value)
     jsonData.value = JSON.parse(processedInput)
     error.value = null
+    localStorage.setItem('jsonInput', jsonInput.value)
   } catch (e) {
     error.value = 'Invalid JSON. Please check the input and try again.'
     jsonData.value = null
   }
 }
+// Clear input and JSON data
+const clearInput = () => {
+  jsonInput.value = ''
+  jsonData.value = null
+  error.value = null
+  localStorage.removeItem('jsonInput')
+}
+
+// Retrieve input from localStorage on mounted
+onMounted(() => {
+  const savedInput = localStorage.getItem('jsonInput')
+  if (savedInput) {
+    jsonInput.value = savedInput
+    parseJson()
+  }
+})
 </script>
 
 <style>
