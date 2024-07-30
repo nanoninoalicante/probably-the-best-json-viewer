@@ -23,7 +23,11 @@ const jsonData = ref<any>(null)
 const error = ref<string | null>(null)
 
 const preprocessJsonInput = (input: string) => {
-  return input.replace(/([{,]\s*)([a-zA-Z0-9_]+)(\s*:)/g, '$1"$2"$3')
+  // Replace single quotes with double quotes for values
+  let processedInput = input.replace(/'([^']*)'/g, '"$1"')
+  // Add double quotes around unquoted keys
+  processedInput = processedInput.replace(/([{,]\s*)([a-zA-Z0-9_]+)(\s*:)/g, '$1"$2"$3')
+  return processedInput
 }
 
 const parseJson = () => {
