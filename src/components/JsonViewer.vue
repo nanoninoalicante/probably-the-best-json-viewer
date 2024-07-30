@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps } from 'vue'
+import { ref, defineProps, watch } from 'vue'
 
 interface JsonData {
   [key: string]: any
@@ -35,6 +35,28 @@ const toggle = (key: string) => {
 const isObject = (value: any) => {
   return value && typeof value === 'object'
 }
+
+// Initialize openKeys with all keys from jsonData
+const initializeOpenKeys = (data: JsonData) => {
+  for (const key in data) {
+    if (data.hasOwnProperty(key)) {
+      openKeys.value.push(key)
+      if (isObject(data[key])) {
+        initializeOpenKeys(data[key])
+      }
+    }
+  }
+}
+
+// Watch for changes in jsonData and initialize openKeys
+watch(
+  () => props.jsonData,
+  (newData) => {
+    openKeys.value = []
+    initializeOpenKeys(newData)
+  },
+  { immediate: true }
+)
 </script>
 
 <style scoped>
