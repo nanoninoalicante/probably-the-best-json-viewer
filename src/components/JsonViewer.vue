@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-for="(value, key) in jsonData" :key="key" class="p-2">
+    <div v-for="(value, key) in jsonData" :key="key" class="p-4 mt-4">
       <div @click="() => toggle(key)" class="cursor-pointer font-bold text-blue-500">
         {{ key }}: <span v-if="isObject(value)">{...}</span>
       </div>

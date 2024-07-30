@@ -1,15 +1,20 @@
 <template>
-  <div class="container mx-auto p-4">
-    <h1 class="text-2xl font-bold mb-4">JSON Viewer</h1>
+  <div class="container mx-auto p-6">
+    <h1 class="text-2xl text-gray-500 font-medium mb-4 tracking-tight">
+      Probably the best JSON Viewer on our planet.
+    </h1>
     <textarea
       v-model="jsonInput"
       class="w-full h-64 p-2 border border-gray-300 rounded mb-4"
       placeholder="Paste your JSON here"
     ></textarea>
-    <button @click="parseJson" class="bg-blue-500 text-white py-2 px-4 rounded mb-4">
+    <button
+      @click="parseJson"
+      class="bg-blue-500 text-white py-4 px-6 rounded-2xl mb-4 hover:bg-blue-600 active:bg-blue-400 ring-2 ring-slate-300"
+    >
       Parse JSON
     </button>
-    <div v-if="error" class="text-red-500 mb-4">{{ error }}</div>
+    <div v-if="error" class="text-red-500 mb-4 mt-4">{{ error }}</div>
     <JsonViewer v-if="jsonData" :jsonData="jsonData" />
   </div>
 </template>
